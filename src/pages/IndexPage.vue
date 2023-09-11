@@ -88,6 +88,30 @@
           </div>
         </div>
 
+        <q-separator />
+        <div class="row q-pb-lg">
+          <div class="q-pt-lg" :class="$q.screen.lt.md ? 'q-pl-xl' : ''">
+            <div class="text-h5">Diamond</div>
+            <span>Input Odd Number:</span>
+            <div class="row">
+              <div class="col-12 flex">
+                <q-input
+                  outlined
+                  v-model="number"
+                  placeholder="1,3,5,7 ..."
+                  class="q-pr-md"
+                />
+                <q-btn
+                  text-color="white"
+                  style="background-color: #d41444"
+                  label="Draw"
+                  @click="drawDiamond(text)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row"></div>
       </div>
       <div class="col-xs-12 col-sm-1 col-md-2" v-show="!$q.screen.lt.md"></div>
@@ -114,6 +138,7 @@ const options = ref([
 
 const people = ref([]);
 const text = ref("");
+const number = ref("");
 
 onMounted(() => {
   getPeople();
@@ -185,6 +210,57 @@ const clickFormat = (text) => {
       ? moment(text).format("YYYY-DD-MM")
       : "You input incorrect date format."
   );
+};
+
+const drawDiamond = () => {
+  // console.log(number.value);
+  const num = number.value;
+
+  if (Math.sign(num) === -1) {
+    alert("Negative number is not allowed. Please try again.");
+  }
+
+  if (isNaN(num)) {
+    alert("You input a string. Please try again.");
+  }
+  if (num % 2 == 0) {
+    alert("It is an even number. Please try again.");
+  } else {
+    let n = (num - 1) / 2 + 1;
+    // Upside pyramid
+    for (let i = 1; i <= n; i++) {
+      // printing spaces
+      let up = "";
+      for (let j = 1; j <= n - i; j++) {
+        up += "\xa0\xa0\xa0";
+      }
+
+      // printing star
+      for (let k = 0; k < 2 * i - 1; k++) {
+        up += "\xa0*\xa0";
+      }
+
+      if (i <= n) {
+        console.log(up);
+      }
+    }
+
+    // downside pyramid
+    for (let i = 1; i <= n - 1; i++) {
+      // printing spaces
+      let down = "";
+      for (let j = 0; j < i; j++) {
+        down += "\xa0\xa0\xa0";
+      }
+      // printing star
+      for (let k = (n - i) * 2 - 1; k > 0; k--) {
+        down += "\xa0*\xa0";
+      }
+      if (i <= n - 1) {
+        console.log(down);
+      }
+    }
+  }
 };
 </script>
 <style scoped>
